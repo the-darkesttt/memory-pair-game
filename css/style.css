@@ -1,0 +1,83 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: rgb(73, 73, 73);
+}
+
+.wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+.game-list {
+    margin-top: 100px;
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+
+
+/* entire container, keeps perspective */
+.flip-container {
+	perspective: 1000px;
+    transition: .4s;
+}
+/* flip the pane when hovered */
+.flip-container-clicked .flipper {
+    transform: rotateY(180deg);
+}
+
+.founded {
+    opacity: 0;
+}
+
+.flip-container, .front, .back {
+	width: 200px;
+	height: 240px;
+}
+
+/* flip speed goes here */
+.flipper {
+	transition: 0.6s;
+	transform-style: preserve-3d;
+
+	position: relative;
+}
+
+/* hide back of pane during swap */
+.front, .back {
+	backface-visibility: hidden;
+
+	position: absolute;
+	top: 0;
+	left: 0;
+
+    border-radius: 10px;
+    border: 2px solid rgb(201, 197, 197);
+}
+
+/* front pane, placed above back */
+.front {
+	z-index: 2;
+    
+    background-color: rgb(143, 177, 152);
+    
+	/* for firefox 31 */
+	transform: rotateY(0deg);
+}
+
+/* back, initially hidden pane */
+.back {
+	transform: rotateY(180deg);
+
+    background-color: rgb(34, 34, 34);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
