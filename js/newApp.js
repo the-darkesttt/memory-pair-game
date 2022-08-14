@@ -1,167 +1,132 @@
 const gameList = document.querySelector(".game-list");
 
-const cardSprites = [
-  "img/01.webp",
-  "img/02.webp",
-  "img/03.webp",
-  "img/04.webp",
-  "img/05.webp",
-  "img/06.webp",
+let cardSprites = [
+    {
+        id: "spite-01",
+        src: "img/01.webp",
+    },
+    {
+        id: "spite-02",
+        src: "img/02.webp",
+    },
+    {
+        id: "spite-03",
+        src: "img/03.webp",
+    },
+    {
+        id: "spite-04",
+        src: "img/04.webp",
+    },
+    {
+        id: "spite-05",
+        src: "img/05.webp",
+    },
+    {
+        id: "spite-06",
+        src: "img/06.webp",
+    },
 ];
-//**************************************** */
-// const cardsSprites = [      Good practise
-//     {
-//         identifier: "something",
-//         sprite: "src",
-//     }
-//     {
-//         id: "second",
-//         sprite: "srcSecond",
-//     }
-//**************************************** */
-// ]
-// class Card {
-//     constructor(sprite) {
-//         this.sprite = sprite;
-//     }
-
-//     appear() {
-//         gameList.appendChild(this.item);
-//     }
-//     у
-// }
-
-// this.item = document.createElement("li");
-
-// const flipContainer = document.createElement("div");
-// flipContainer.classList.add("flip-container");
-
-// const flipper = document.createElement("div");
-// flipper.classList.add("flipper");
-
-// const front = document.createElement("div");
-// front.classList.add("front");
-
-// const back = document.createElement("div");
-// back.classList.add("back");
-
-// const img = document.createElement("img");
-// img.setAttribute("src", this.sprite);
-// img.classList.add("img");
-
-// this.item.appendChild(flipContainer);
-// flipContainer.appendChild(flipper);
-// flipper.appendChild(front);
-// flipper.appendChild(back);
-// back.appendChild(img);
 
 function createCard(card) {
-  return `
+    return `
     <li>
-    <div class="flip-container">
-        <div class="flipper">
-            <div class="front"></div>
-            <div class="back"><img src="${imgSrc}" class="img"></div>
+        <div class="flip-container" id="${card.id}">
+            <div class="flipper">
+                <div class="front"></div>
+                <div class="back"><img src="${card.src}"></div>
+            </div>
         </div>
-    </div>
-</li>`;
+    </li>`;
 }
 
-const generatedCards = [];
-let foundedPairs = 0;
-//два варіанти подвоєння масиву
-cardSprites = cardSprites.concat(cardSprites);
 cardSprites = [...cardSprites, ...cardSprites];
-//
-shuffle(/*cards*/);
 function shuffle() {
-  cardSprites.sort(() => 0.5 - Math.random());
+    cardSprites.sort(() => 0.5 - Math.random());
 }
+shuffle();
+
 let temp = "";
 cardSprites.forEach((sprite) => {
-  temp += createCard(sprite);
+    temp += createCard(sprite);
 });
+
 gameList.innerHTML = temp;
-// cardSprites.forEach((sprite) => {
-//     generatedCards.push(new Card(sprite));
-//     generatedCards.push(new Card(sprite));
-// });
 
-// cardSprites.sort(function() { return 0.5 - Math.random() });
+let foundedPairs = 0;
 
-// let arrayFLipCLicker = []; *
+let flippedCardsArr = [];
+
 gameList.addEventListener("click", ({ target }) => {
-  const targetCard = target; // delete this line(maybe)
 
-  if (
-    targetCard.getAttribute("class") !== "game-list" /*target.closest(".back")*/
-  ) {
-    const cardFlipContainer = targetCard.parentElement.parentElement; //const cardFlipContainer target.closest(".flip-container")
+    if (target.closest('.flipper')) {
 
-    //let arrayFLipCLicker = [] *
-    //  arrayFLipCLicker = [...arrayFLipCLicker, cardFlipContainer];
-    cardFlipContainer.classList.add("flip-container-clicked");
-    //querySelector
-    const cardList = document.querySelectorAll(".flip-container-clicked");
+        flipCard(target)
 
-    if (cardList.length === 2) {
-      const firstCard = cardList[0].querySelector(".img");
-      const firstCardImgSrc = firstCard.getAttribute("src");
+        if (flippedCardsArr.length === 2) {
 
-      const secondCard = cardList[1].querySelector(".img");
-      const secondCardImgSrc = secondCard.getAttribute("src");
+          compareCards();
 
-      const firstCardContainer =
-        firstCard.parentElement.parentElement.parentElement;
-      const secondCardContainer =
-        secondCard.parentElement.parentElement.parentElement;
-      /*
-setTimeout(() => {
-// 1 dick better then 3 примiтка: до 16 жодних не треба
-}, 0)
-*/
-      if (firstCardImgSrc !== secondCardImgSrc) {
-        setTimeout(() => {
-          //function verbUnmatch()
-          firstCardContainer.classList.remove("flip-container-clicked");
-          secondCardContainer.classList.remove("flip-container-clicked");
-        }, 600);
-      } else {
-        foundedPairs += 2;
-
-        setTimeout(() => {
-          //function verbMatch()
-          firstCardContainer.classList.remove("flip-container-clicked");
-          secondCardContainer.classList.remove("flip-container-clicked");
-
-          firstCardContainer.classList.add("founded");
-          secondCardContainer.classList.add("founded");
-        }, 600);
-        //function verbWon()
-        if (foundedPairs === generatedCards.length) {
-          setTimeout(() => {
-            alert("You won!");
-          }, 600);
         }
-      }
-    } else if (cardList.lenght > 2) {
-      console.log(cardList);
-      cardList.forEach((card) => {
-        card.classList.remove("flip-container-clicked");
-      });
     }
-  }
 });
 
-/*
-gameList.addEventListener("click", ({target}) => {
-    flip(target)
-})
-few options for this stuff
-gameList.addEventListener("click", flip);
-function flip({target}) {
+function flipCard(target) {
+    const cardFlipContainer = target.closest(".flip-container");
+    
+    if (flippedCardsArr.length < 2) {
+      cardFlipContainer.classList.add("flip-container-clicked");
+      flippedCardsArr = [...flippedCardsArr, cardFlipContainer];
+    }
 
 }
-const flip = ({target}) => {
 
-}*/
+function compareCards() {
+
+  const firstCardID = flippedCardsArr[0].getAttribute("id");
+  const secondCardID = flippedCardsArr[1].getAttribute("id");
+
+  const comparingID = cardSprites.filter((sprite) => {
+    return sprite.id === firstCardID || sprite.id === secondCardID
+  });
+
+  if (comparingID.length === 2) {
+    hideMatchingCards();
+  } else {
+    hideUnmatchingCards();
+  }
+
+}
+
+function hideMatchingCards() {
+
+  foundedPairs += 2;
+
+  setTimeout(() => {
+    flippedCardsArr[0].classList.remove("flip-container-clicked");
+    flippedCardsArr[1].classList.remove("flip-container-clicked");
+
+    flippedCardsArr[0].classList.add("founded");
+    flippedCardsArr[1].classList.add("founded");
+
+    flippedCardsArr = []; 
+  }, 600);
+    
+  if (foundedPairs === cardSprites.length) {
+    showWinMessage();
+  }
+}
+
+function hideUnmatchingCards() {
+  setTimeout(() => {
+    flippedCardsArr[0].classList.remove("flip-container-clicked");
+    flippedCardsArr[1].classList.remove("flip-container-clicked");
+
+    flippedCardsArr = []; 
+  }, 600);
+}
+
+function showWinMessage() {
+  setTimeout(() => {
+    alert("You won!");
+  }, 600);
+}
