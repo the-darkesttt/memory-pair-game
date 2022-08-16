@@ -37,7 +37,6 @@ function countGameTime() {
       timerMin.innerHTML = min;
     }
 
-
     if (sec === 59) {
       sec = 0;
       min++;
@@ -94,7 +93,7 @@ let cardSprites = [
 function createCard(card) {
     return `
     <li>
-        <div class='flip-container' id='${card.id}'>
+        <div class='flip-container' data-sprite-id='${card.id}'>
             <div class='flipper'>
                 <div class='front'></div>
                 <div class='back'><img src='${card.src}'></div>
@@ -117,20 +116,13 @@ function createCards() {
 }
 createCards();
 
-
 gameList.innerHTML = cardsItems;
 
-
 gameList.addEventListener('click', ({ target }) => {
-
     if (target.closest('.flipper') && flippedCardsArr.length < 2) {
-
         flipCard(target);
-
         if (flippedCardsArr.length === 2) {
-
           compareCards();
-
         }
     }
 });
@@ -140,21 +132,16 @@ function flipCard(target) {
     
     if (flippedCardsArr.length < 2) {
       cardFlipContainer.classList.add('flip-container-clicked');
-      flippedCardsArr = [...flippedCardsArr, cardFlipContainer];
+      flippedCardsArr.push(cardFlipContainer);
     }
-
 }
 
 function compareCards() {
 
-  const firstCardID = flippedCardsArr[0].getAttribute('id');
-  const secondCardID = flippedCardsArr[1].getAttribute('id');
+  const firstCardID = flippedCardsArr[0].dataset.spriteId;
+  const secondCardID = flippedCardsArr[1].dataset.spriteId;
 
-  const comparingID = cardSprites.filter((sprite) => {
-    return sprite.id === firstCardID || sprite.id === secondCardID;
-  });
-
-  if (comparingID.length === 2) {
+  if (firstCardID === secondCardID) {
     hideMatchingCards();
   } else {
     hideUnmatchingCards();
