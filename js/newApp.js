@@ -2,6 +2,7 @@ let stopGame = false;
 let foundedPairs = 0;
 let flippedCardsArr = [];
 
+const body = document.querySelector('body');
 const gameList = document.querySelector('.game-list');
 
 const gameMenu = document.querySelector('.game-menu');
@@ -10,6 +11,7 @@ const gameMenuDecs = document.querySelector('.modal__desc');
 const gameStartButton = document.querySelector('#game-start-button');
 
 gameStartButton.addEventListener('click', () => {
+  body.classList.add('menu-close');
   gameMenu.classList.add('game-menu__hide');
   countGameTime();
 });
@@ -22,12 +24,25 @@ let sec = 0;
 function countGameTime() {
   if (!stopGame) {
     sec++;
+
+    if (sec < 10) {
+      timerSec.innerHTML = `0${sec}`;
+    } else {
+      timerSec.innerHTML = sec;
+    }
+
+    if (min < 10) {
+      timerMin.innerHTML = `0${min}`;
+    } else {
+      timerMin.innerHTML = min;
+    }
+
+
     if (sec === 59) {
       sec = 0;
       min++;
     }
-    timerMin.innerHTML = min;
-    timerSec.innerHTML = sec;
+
     setTimeout(countGameTime, 1000);
   }
 }
@@ -48,7 +63,6 @@ function restartingGame() {
   createCards();
   gameList.innerHTML = cardsItems;
 }
-
 
 let cardSprites = [
     {
@@ -107,10 +121,9 @@ createCards();
 gameList.innerHTML = cardsItems;
 
 
-
 gameList.addEventListener('click', ({ target }) => {
 
-    if (target.closest('.flipper')) {
+    if (target.closest('.flipper') && flippedCardsArr.length < 2) {
 
         flipCard(target);
 
@@ -152,15 +165,15 @@ function compareCards() {
 function hideMatchingCards() {
 
   foundedPairs += 2;
+  const temp = [...flippedCardsArr];
+  flippedCardsArr = []; 
 
   setTimeout(() => {
-    flippedCardsArr[0].classList.remove('flip-container-clicked');
-    flippedCardsArr[1].classList.remove('flip-container-clicked');
+    temp[0].classList.remove('flip-container-clicked');
+    temp[1].classList.remove('flip-container-clicked');
 
-    flippedCardsArr[0].classList.add('founded');
-    flippedCardsArr[1].classList.add('founded');
-
-    flippedCardsArr = []; 
+    temp[0].classList.add('founded');
+    temp[1].classList.add('founded');
   }, 600);
     
   if (foundedPairs === cardSprites.length) {
@@ -186,4 +199,4 @@ function showWinMessage() {
     gameStartButton.remove();
     gameMenu.classList.remove('game-menu__hide');
   }, 1000);
-}
+} 

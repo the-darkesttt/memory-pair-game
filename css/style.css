@@ -16,6 +16,11 @@
 
 body {
     background-color: var(--bg-color);
+    overflow: hidden;
+}
+
+.menu-close {
+    overflow: auto;
 }
 
 .game-menu__hide {
