@@ -23,7 +23,8 @@ const timerSec = document.querySelector('#timerSec');
 function hideMenu() {
   body.classList.add('menu-close');
   gameMenu.classList.add('game-menu__hide');
-  countGameTime();
+  setTimeout(countGameTime, 1000)
+  
 }
 
 gameStartButton.addEventListener('click', hideMenu);
@@ -62,7 +63,7 @@ restartButton.addEventListener('click', restartingGame);
 
 function restartingGame() {
   foundedPairs = 0;
-  sec = 0;
+  sec = -1;
   min = 0;
   flippedCardsArr = [];
   stopGame = false;
