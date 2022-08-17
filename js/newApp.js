@@ -30,6 +30,8 @@ function hideMenu() {
 gameStartButton.addEventListener('click', hideMenu);
 restartBtnModal.addEventListener('click', () => {
   restartingGame();
+  timerSec.innerHTML = `00`;
+  timerMin.innerHTML = `00`;
   hideMenu();
 });
 
@@ -63,7 +65,7 @@ restartButton.addEventListener('click', restartingGame);
 
 function restartingGame() {
   foundedPairs = 0;
-  sec = -1;
+  sec = 0;
   min = 0;
   flippedCardsArr = [];
   stopGame = false;
