@@ -79,6 +79,7 @@ body {
 /* game desk ---------------------------------------------------- */
 .wrapper {
     width: 69vw;
+    height: 100vh;
     margin: 0 auto;
     padding: 0 15px;
     display: flex;
@@ -114,6 +115,15 @@ body {
 
 /* ----------------------------------- */
 
+.list-wrapper {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 .game-list {
     list-style: none;
     display: flex;
@@ -122,6 +132,8 @@ body {
     gap: 20px;
     width: 100%;
     height: calc(100vh - 68px - 15px - 30px);
+    max-height: 800px;
+    max-width: 1000px;
 }
 
 /* cards ------------------------------ */
@@ -220,9 +232,12 @@ li {
 }
 
 @media screen and (max-width: 640px) {
+    .list-wrapper {
+        margin-top: -10vh;
+    }
     .game-list {
         height: 60vh;
-        margin-top: 10%;
+        
     }
 }
 
@@ -246,7 +261,6 @@ li {
 
 @media screen and (max-width: 425px) {
     .game-list {
-        margin-top: 20%;
         padding: 0;
     }
 }

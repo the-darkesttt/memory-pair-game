@@ -28,6 +28,7 @@ function hideMenu() {
 }
 
 gameStartButton.addEventListener('click', hideMenu);
+
 restartBtnModal.addEventListener('click', () => {
   restartingGame();
   timerSec.innerHTML = `00`;
@@ -61,7 +62,11 @@ function countGameTime() {
 }
 
 const restartButton = document.querySelector('#restart-btn');
-restartButton.addEventListener('click', restartingGame);
+restartButton.addEventListener('click', () => {
+  timerSec.innerHTML = `00`;
+  timerMin.innerHTML = `00`;
+  setTimeout(restartingGame(), 5000);
+});
 
 function restartingGame() {
   foundedPairs = 0;
@@ -71,6 +76,7 @@ function restartingGame() {
   stopGame = false;
 
   createCardDeck();
+  
 }
 
 let cardSprites = [
@@ -205,5 +211,6 @@ function showWinMessage() {
     gameStartButton.remove()
 
     gameMenu.classList.remove('game-menu__hide');
-  }, 1000);
+  }, 600);
+  
 } 
