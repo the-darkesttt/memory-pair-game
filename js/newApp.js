@@ -213,4 +213,4 @@ function showWinMessage() {
     gameMenu.classList.remove('game-menu__hide');
   }, 600);
   
-} 
+}
