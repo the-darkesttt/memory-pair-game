@@ -17,7 +17,6 @@
 body {
     background-color: var(--bg-color);
     overflow: hidden;
-
     max-height: 100vh;
 }
 
@@ -170,38 +169,31 @@ li {
 .flipper {
 	transition: 0.6s;
 	transform-style: preserve-3d;
-
 	position: relative;
     height: 100%;
 }
 
 .front, .back {
 	backface-visibility: hidden;
-
 	position: absolute;
 	top: 0;
 	left: 0;
-
     border-radius: 10px;
     border: 2px solid var(--card-border-color) ;
 }
 
 .front {
 	z-index: 2;
-    
     background-color: var(--card-front-color);
-
 	transform: rotateY(0deg);
 }
 
 .back {
 	transform: rotateY(180deg);
-
     background-color: var(--card-back-color);
     display: flex;
     justify-content: center;
     align-items: center;
-
     pointer-events: none;
 }
 
