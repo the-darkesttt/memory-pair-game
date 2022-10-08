@@ -26,6 +26,8 @@ let cardSprites = [
 ];
 
 let stopGame = false;
+let recordTime = JSON.parse(localStorage.getItem('recordTime'));
+let newRecord = false;
 let foundedPairs = 0;
 let flippedCardsArr = [];
 let min = 0;
@@ -37,6 +39,13 @@ const gameList = document.querySelector('.game-list');
 const gameMenu = document.querySelector('.game-menu');
 const gameMenuTitle = document.querySelector('.modal__title');
 const gameMenuDecs = document.querySelector('.modal__desc');
+
+if (recordTime) {
+  gameMenuDecs.innerHTML += `
+  <br><br> Your record: ${recordTime.mins} mins ${recordTime.secs} secs
+  `;
+}
+
 const gameStartButton = document.querySelector('#game-start-button');
 
 const restartBtnModal = document.createElement('button');
@@ -191,8 +200,39 @@ function hideUnmatchingCards() {
 
 function showWinMessage() {
   stopGame = true;
+
+  const winTime = {
+    mins: min,
+    secs: sec
+  };
+
+  if (!recordTime) {
+
+    localStorage.setItem('recordTime', JSON.stringify(winTime));
+    recordTime = JSON.parse(localStorage.getItem('recordTime'));
+    newRecord = true;
+
+  } else if (recordTime) {
+    if (recordTime.mins >= winTime.mins && recordTime.secs > winTime.secs) {
+      localStorage.setItem('recordTime', JSON.stringify(winTime));
+      console.log(recordTime)
+      newRecord = true;
+    } else {
+      newRecord = false;
+    }
+  }
+
   setTimeout(() => {
-    gameMenuTitle.innerHTML = 'You won!';
+    if (!newRecord) {
+      gameMenuTitle.classList.remove('new-record');
+      gameMenuTitle.innerHTML = 'You won!';
+      newRecord = false;
+    } else if (newRecord) {
+      gameMenuTitle.classList.add('new-record');
+      gameMenuTitle.innerHTML = 'New record!!!';
+      newRecord = false;
+    }
+    
     gameMenuDecs.innerHTML = `Congratulations! You found pairs for all cards by spending ${min} minutes and ${sec} seconds!`;
     
     gameStartButton.after(restartBtnModal);

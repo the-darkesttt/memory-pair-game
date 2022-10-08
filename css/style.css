@@ -58,6 +58,10 @@ body {
     box-shadow: 0px 31px 126px -30px rgba(128,115,128,1);            
 }
 
+.new-record {
+    color: rgb(235, 197, 28);
+}
+
 .modal__desc {
     margin: 15px 0;
     font-size: 18px;
